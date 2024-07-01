@@ -2,12 +2,23 @@ body {
     background-color: lightblue;
 }
 
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+img {
+    width: 375px;
+}
+
 .entry {
     position: relative;
     display: inline-block;
 }
 
-.badge {
+.available {
     position: absolute;
     background-color: green;
     color: white;
@@ -15,6 +26,15 @@ body {
     text-align: center;
 }
 
+.adopted {
+    position: absolute;
+    background-color: black;
+    color: white;
+    padding: 4px 8px;
+    text-align: center;
+}
+
 .message {
     font-size: large;
+    width: 375px;
 }
