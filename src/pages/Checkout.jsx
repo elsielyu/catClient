@@ -25,27 +25,33 @@ const Checkout = (props) => {
     return (
         <div className="checkout">
             <h1>Yes, I want to adopt {name}!</h1>
-            <div>
+            <div className="image">
                 <img src={`data:image/jpeg;base64,${image}`} alt=""></img>
             </div>
             <form onSubmit={handleSubmit}>
-                <label>Your name</label>  
-                <input
-                    type="text"
-                    value={adopterName}
-                    onChange={(e) => setAdopterName(e.target.value)}
-                />
-                <label>Your email address</label>
-                <input
-                    type="text"
-                    value={adopterEmail}
-                    onChange={(e) => setAdopterEmail(e.target.value)}
-                />
-                <label className="long-label">Please tell the owner a little about yourself</label>
-                <textarea
-                    value={adopterMessage}
-                    onChange={(e) => setAdopterMessage(e.target.value)}
-                />
+                <div className="line-item">
+                    <label>Your name</label>  
+                    <input
+                        type="text"
+                        value={adopterName}
+                        onChange={(e) => setAdopterName(e.target.value)}
+                    />
+                </div>
+                <div className="line-item">
+                    <label>Your email address</label>
+                    <input
+                        type="text"
+                        value={adopterEmail}
+                        onChange={(e) => setAdopterEmail(e.target.value)}
+                    />
+                </div>
+                <div className="line-item">
+                    <label>Please tell the owner a little about yourself</label>
+                    <textarea
+                        value={adopterMessage}
+                        onChange={(e) => setAdopterMessage(e.target.value)}
+                    />
+                </div>
                 <input
                     className="submit"
                     type="submit"
@@ -53,7 +59,7 @@ const Checkout = (props) => {
                 />
             </form>
             {submitMessage &&
-                <span>{submitMessage}</span>
+                <div className="submit-message">{submitMessage}</div>
             }
         </div>
     )

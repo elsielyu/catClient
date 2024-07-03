@@ -1,25 +1,47 @@
 .checkout {
     margin: auto;
     width: 40%;
-}
+    text-align: center;
 
-form {
-    padding-top: 20px;
-    display: grid;
-    grid-template-columns: max-content max-content;
-    gap: 15px;
-
-    label {
-        text-align: right;
-    }
-    label:after {
-        content: ":";
-    }
-
-    .long-label {
-        max-width: 160px;
-    }
-
-    .submit {
+    form {
+        padding-top: 20px;
+    
+        .line-item {
+            display: grid;
+            grid-template-columns: max-content;
+            text-align: left;
+            padding: 1rem 0 1rem 4rem;
+    
+            label {
+                font-size: larger;
+                padding: 0.5rem;
+            }
+    
+            input {
+                font-size: larger;
+                padding: 0.5rem;
+            }
+    
+            textarea {
+                font-size: larger;
+                padding: 0.5rem;
+                width: 100%;
+            }
+        }
+    
+        .submit {
+            margin-top: 2rem;
+            width: 7rem;
+            height: 3rem;
+        }
+    
+        label:after {
+            content: ":";
+        }
+    }    
+    
+    .submit-message {
+        margin-top: 2rem;
+        font-size: larger;
     }
 }
