@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/Home.scss';
 
 const Home = () => {
+    const navigate = useNavigate();
     const [cats, setCats] = useState([]);
     const [availableCats, setAvailableCats] = useState([]);
     const [seeAllCats, setSeeAllCats] = useState(true);
@@ -13,7 +15,7 @@ const Home = () => {
                 'content-type': 'application/json',
             },
             body: JSON.stringify({
-                query: '{getCats { name, image, message, available }}',
+                query: '{getCats { name, image, message, available, owner { firstName, lastName, email } }}',
             }),
         });
         const responseBody = await response.json();
@@ -28,7 +30,7 @@ const Home = () => {
                 'content-type': 'application/json',
             },
             body: JSON.stringify({
-                query: '{getAvailableCats { name, image, message, available }}',
+                query: '{getAvailableCats { name, image, message, available, owner { firstName, lastName, email }}}',
             }),
         });
         const responseBody = await response.json();
@@ -40,23 +42,27 @@ const Home = () => {
         setSeeAllCats(!seeAllCats);
     };
 
+    const handleAdopt = (cat) => {
+        navigate('/checkout', { state: { cat: cat }});
+    };
+
     const catList = cats.map(cat => {
         return (
             <div key={cat.id}>
                 <h1>{cat.name}</h1>
                 {cat.available &&
-                    <div class="entry">
-                        <span class="available">Available</span>
+                    <div className="entry" onClick={() => handleAdopt(cat)}>
+                        <span className="available">Available</span>
                         <img src={`data:image/jpeg;base64,${cat.image}`} alt=""></img>
                     </div>
                 }
                 {!cat.available && 
-                    <div class="entry">
-                        <span class="adopted">Adopted</span>
+                    <div className="entry">
+                        <span className="adopted">Adopted</span>
                         <img src={`data:image/jpeg;base64,${cat.image}`} alt=""></img>
                     </div>
                 }
-                <div class="message">{cat.message}</div>
+                <div className="message">{cat.message}</div>
             </div>
         );
     });
@@ -65,11 +71,11 @@ const Home = () => {
         return (
             <div key={cat.id}>
                 <h1>{cat.name}</h1>
-                <div class="entry">
-                    <span class="available">Available</span>
+                <div className="entry" onClick={() => handleAdopt(cat.owner)}>
+                    <span className="available">Available</span>
                     <img src={`data:image/jpeg;base64,${cat.image}`} alt=""></img>
                 </div>
-                <div class="message">{cat.message}</div>
+                <div className="message">{cat.message}</div>
             </div>
         );
     });
@@ -82,8 +88,8 @@ const Home = () => {
     return (
         <>
             <button onClick={handleFilter}>{seeAllCats ? 'Show available cats' : 'Show all cats'}</button>
-            <div class="wrapper">{seeAllCats && catList}</div>
-            <div class="wrapper">{!seeAllCats && availableCatList}</div>
+            <div className="wrapper">{seeAllCats && catList}</div>
+            <div className="wrapper">{!seeAllCats && availableCatList}</div>
         </>
     );
 };
