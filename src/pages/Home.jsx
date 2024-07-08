@@ -15,7 +15,7 @@ const Home = () => {
                 'content-type': 'application/json',
             },
             body: JSON.stringify({
-                query: '{getCats { name, image, message, available, owner { firstName, lastName, email } }}',
+                query: '{getCats { id, name, image, message, available }}',
             }),
         });
         const responseBody = await response.json();
@@ -30,7 +30,7 @@ const Home = () => {
                 'content-type': 'application/json',
             },
             body: JSON.stringify({
-                query: '{getAvailableCats { name, image, message, available, owner { firstName, lastName, email }}}',
+                query: '{getAvailableCats { id, name, image, message, available }}',
             }),
         });
         const responseBody = await response.json();
@@ -71,7 +71,7 @@ const Home = () => {
         return (
             <div key={cat.id}>
                 <h1>{cat.name}</h1>
-                <div className="entry" onClick={() => handleAdopt(cat.owner)}>
+                <div className="entry" onClick={() => handleAdopt(cat)}>
                     <span className="available">Available</span>
                     <img src={`data:image/jpeg;base64,${cat.image}`} alt=""></img>
                 </div>

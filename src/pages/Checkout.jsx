@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import '../css/Checkout.scss';
 
@@ -6,16 +6,35 @@ const Checkout = (props) => {
     const location = useLocation();
     const { state } = location;
     const { cat } = state;
-    const { name, image, owner } = cat;
+    const { id, name, image } = cat;
 
     const [adopterName, setAdopterName] = useState('');
     const [adopterEmail, setAdopterEmail] = useState('');
     const [adopterMessage, setAdopterMessage] = useState('');
     const [submitMessage, setSubmitMessage] = useState('');
+    const [enableSubmit, setEnableSubmit] = useState(false);
 
-    const handleSubmit = (event) => {
+    useEffect(() => {
+        if (adopterName && adopterEmail && adopterMessage) {
+            setEnableSubmit(true);
+        } else {
+            setEnableSubmit(false);
+        }
+    }, [adopterName, adopterEmail, adopterMessage]);
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        let success = true;
+        const response = await fetch('http://localhost:9000/graphql', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                query: `mutation {sendEmail(id: "${id}", fromName: "${adopterName}, "fromEmail: "${adopterEmail}", message: "${adopterMessage}")}`,
+            }),
+        });
+        const responseBody = await response.json();
+        const success = responseBody.data.sendEmail;
         if (success) {
             setSubmitMessage('Your message was successfully sent to the owner.  Check your email for a response on next steps.');
         } else {
@@ -55,7 +74,7 @@ const Checkout = (props) => {
                 <input
                     className="submit"
                     type="submit"
-                    disabled={submitMessage}
+                    disabled={!enableSubmit}
                 />
             </form>
             {submitMessage &&
